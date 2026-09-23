@@ -1,0 +1,54 @@
+﻿1) Correct the date problem in Expense entery form.
+2) From Pending, Proccess, Done and other status changeing pages Delete option is not working.
+3) Use Server.Transfer in all pages from we are redirecting to frmWorkEntry.aspx
+4) Add proper validation on frmWorkEntry
+5) Enable Edit Cancle btn in Dashboard Balance
+6) Improve Folder Creation Logic
+7) Improve Dashborad Calculation Logic
+8) Ajent Edit not working in addAjent.aspx
+
+
+
+// Admin Dashboard Template:
+https://themewagon.github.io/spark-admin/index.html#
+
+// Folder Creation
+protected void btnCreateFolder_Click(object sender, EventArgs e)
+{
+    string folderInput = txtFolderName.Text.Trim();
+
+    if (string.IsNullOrEmpty(folderInput))
+    {
+        lblStatus.Text = "Please enter a valid folder name.";
+        lblStatus.ForeColor = System.Drawing.Color.Red;
+        return;
+    }
+
+    try
+    {
+        // Map the relative virtual path to absolute physical server path
+        // Creates folder inside a 'Uploads' directory on the server
+        string relativePath = "~/Uploads/" + folderInput;
+        string physicalPath = Server.MapPath(relativePath);
+
+        // Check if directory already exists
+        if (!Directory.Exists(physicalPath))
+        {
+            // Create the directory
+            Directory.CreateDirectory(physicalPath);
+                    
+            lblStatus.Text = $"Folder created successfully at: {physicalPath}";
+            lblStatus.ForeColor = System.Drawing.Color.Green;
+        }
+        else
+        {
+            lblStatus.Text = "Folder already exists!";
+            lblStatus.ForeColor = System.Drawing.Color.Orange;
+        }
+    }
+    catch (Exception ex)
+    {
+        lblStatus.Text = $"Error: {ex.Message}";
+        lblStatus.ForeColor = System.Drawing.Color.Red;
+    }
+}

@@ -1,0 +1,378 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="mst.master.cs" Inherits="Dokaan.forms.mst" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <!-- Fav icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link href="~\assets\files\bootstrap.css" rel="stylesheet" />
+    <%-- SELECT 2 CSS CDN --%>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css">
+
+    <%-- JQUERY SCRIPT CDN --%>
+    <script src="..\assets\files\jq.js"></script>
+    <%-- BOOTSTRAP 5 SCRIPT CDN --%>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <%-- SELECT 2 SCRIPT CDN --%>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+    <!-- CDN FOR JS SEARCHING ON GRIDVIEW START -->
+    <link href="https://cdn.datatables.net/v/dt/dt-3.0.2/datatables.min.css" rel="stylesheet">
+    <script src="https://cdn.datatables.net/v/dt/dt-3.0.2/datatables.min.js" ></script>
+    <!-- CDN FOR JS SEARCHING ON GRIDVIEW END -->
+
+    <style>
+        /* UNIVERSAL START */
+
+        body {
+            background-color: var(--grey_2);
+            /*height: 100vh;*/
+        }
+
+        body::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        :root {
+            --shade_1: #3C467B;
+            --shade_2: #50589C;
+            --shade_3: #636CCB;
+            --shade_4: #6E8CFB;
+            --orange: #FF753A;
+            --white: #FFFFFF;
+            --grey_1: #D9D9D9;
+            --grey_2: #E9E9E9;
+            --light_red: #fea0a0;
+            --light_green: #abf6a4;
+            --light_yellow: #f7f7a4;
+        }
+
+        /*input[type=text], input[type=number], textarea,select{
+            border-radius: 8px;
+        }*/
+
+        .t_white {
+            color: var(--white);
+        }
+
+        .shade_1 {
+            background-color: var(--shade_1) !important;
+        }
+
+        .shade_2 {
+            background-color: var(--shade_2) !important;
+        }
+
+        .shade_3 {
+            background-color: var(--shade_3) !important;
+        }
+
+        .shade_4 {
+            background-color: var(--shade_4) !important;
+        }
+
+        .shade_5 {
+            background-color: var(--shade_5) !important;
+        }
+
+        .orange {
+            background-color: var(--orange) !important;
+        }
+
+        .white {
+            background-color: var(--white) !important;
+        }
+
+        .grey_1 {
+            background-color: var(--grey_1) !important;
+        }
+
+        .grey_2 {
+            background-color: var(--grey_2) !important;
+        }
+
+        /* UNIVERSAL END */
+
+        /* HEADER START */
+
+        #header {
+            z-index: 100;
+            display: block;
+        }
+
+        /* HEADER END */
+
+        /* NAVIGATION START */
+
+        .side_nav {
+            width: 0px;
+            /*padding-top: 70px;*/
+            overflow-x: hidden;
+            transition: all 0.5s;
+            background-color: white;
+        }
+
+            .side_nav::-webkit-scrollbar {
+                width: 0px;
+            }
+
+        .side_nav_toggle {
+            width: 280px;
+            /*width: 50px;*/
+        }
+
+        #menu_icon {
+            cursor: pointer;
+            /*padding: 10px 5px;
+        top: 80px;
+        right: -31px;
+        writing-mode: vertical-lr;
+        z-index: 100;*/
+            /*font-weight: 900;
+            margin: 0px;
+            border-radius: 0%;
+            transform: rotate(90deg);*/
+        }
+
+        .custom-position-responsive {
+            z-index: 99;
+            position: fixed;
+        }
+
+        @media (min-width: 992px) {
+            .custom-position-responsive {
+                position: relative;
+            }
+
+            .side_nav {
+                width: 280px;
+            }
+
+            .side_nav_toggle {
+                width: 0px;
+            }
+        }
+
+        link_hover {
+            transition: all 0.5s ease;
+        }
+
+        .link_hover:focus {
+            background-color: var(--shade_3);
+            color: var(--white);
+        }
+
+        .link_hover:hover {
+            background-color: var(--shade_3);
+            color: var(--white);
+        }
+
+        .subMenuArrowIconAnimation {
+            /*transition: all 0.5s;*/
+            transform: rotate(180deg);
+        }
+
+        .notification {
+            background: var(--orange);
+            width: 20px;
+            height: 20px;
+            border-radius: 100%;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0px;
+            margin: 0px;
+            font-size: 10px;
+        }
+
+        /* NAVIGATION END */
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <%-- HEADER START --%>
+
+            <div id="header" class="container-fluid shadow-sm position-fixed top-0 shade_1">
+                <!-- <div class="container py-2"> -->
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-start align-items-center">
+                        <div class="rounded me-3">
+                            <img src="../assets/img/ALPHA.jpg" alt="logo" width="35" class="rounded img-fluid" />
+                        </div>
+                        <div class="py-3">
+                            <h4 class="m-0 fs-5 t_white">DAILY ENTRY</h4>
+                        </div>
+                        <!-- MENU BTN ICON START -->
+                        <div id="menu_icon" class="small px-3 mb-0 border-0 border-primary positionfv-absolute d-flex align-items-center" onclick="side_bar_toggle()">
+                            <img src="../assets/img/menu_icon.png" alt="menu_icon" />
+                        </div>
+                        <!-- MENU BTN ICON END -->
+                    </div>
+                </div>
+                <!-- </div> -->
+            </div>
+
+            <%-- HEADER END --%>
+
+            <div class="d-flex">
+                <%-- NAVIGATION BAR START --%>
+
+                <div class="custom-position-responsive shade_2" style="height: 100vh;">
+
+                    <!-- LINKS ARE HERE  -->
+
+                    <ul class="side_nav list-unstyled mb-0 text-nowrap">
+                        <li class="shade_2">
+                            <h4 class="mb-0 px-3 py-3">Menu
+                            </h4>
+                        </li>
+                        <!-- WORK ENTRY LINK -->
+                        <li class="nav-item shade_2">
+                            <a runat="server" href="workEntry.aspx" class="t_white nav-link px-3 py-2 link_hover">TODAY ENTRY</a>
+                        </li>
+                        <!-- DASHBOARD LINK -->
+                        <li class="nav-item shade_2">
+                            <a runat="server" href="Dashboard.aspx" class="t_white nav-link px-3 py-2 link_hover">DASHBOARD</a>
+                        </li>
+                        <!-- WORK STATUS LINK -->
+                        <li class="nav-item shade_2">
+                            <a class="statusSubMenu d-flex align-items-center justify-content-between t_white nav-link px-3 py-2 link_hover" href="#" data-bs-toggle="collapse" data-bs-target="#statusSubMenu" aria-expand="false" aria-controls="statusSubMenu">
+                                <span>WORK STATUS</span>
+                                <img class="statusSubMenuImg" src="../assets/img/downArrow.png" width="15" alt="#" />
+                            </a>
+
+                            <ul id="statusSubMenu" class="collapse list-unstyled mb-0">
+                                <!-- PENDING WORK BTN -->
+                                <li class="nav-item shade_2">
+                                    <a runat="server" href="pendingWork.aspx" class="d-flex align-items-center justify-content-between t_white nav-link px-3 py-2 link_hover">
+                                        <span class="ps-3">PENDING</span>
+                                        <asp:Label runat="server" ID="lblPendingCount" CssClass="notification"></asp:Label>
+                                    </a>
+                                </li>
+                                <!-- PROCESSING WORK BTN -->
+                                <li class="nav-item shade_2">
+                                    <a runat="server" href="proccessWork.aspx" class="d-flex align-items-center justify-content-between t_white nav-link px-3 py-2 link_hover">
+                                        <span class="ps-3">PROCCESS</span>
+                                        <asp:Label runat="server" ID="lblProccessCount" CssClass="notification"></asp:Label>
+                                    </a>
+                                </li>
+                                <!-- DONE WORK BTN -->
+                                <li class="nav-item shade_2">
+                                    <a runat="server" href="doneWork.aspx" class="t_white nav-link px-3 py-2 link_hover">
+                                        <span class="ps-3">DONE</span>
+                                    </a>
+                                </li>
+                                <!-- QUERY WORK BTN -->
+                                <li class="nav-item shade_2">
+                                    <a runat="server" href="queryWork.aspx" class="d-flex align-items-center justify-content-between t_white nav-link px-3 py-2 link_hover">
+                                        <span class="ps-3">QUERY</span>
+                                        <asp:Label runat="server" ID="lblQueryCount" CssClass="notification"></asp:Label>
+                                    </a>
+                                </li>
+                                <!-- REJECT WORK BTN -->
+                                <li class="nav-item shade_2">
+                                    <a runat="server" href="rejectWork.aspx" class="d-flex align-items-center justify-content-between t_white nav-link px-3 py-2 link_hover">
+                                        <span class="ps-3">REJECT</span>
+                                        <asp:Label runat="server" ID="lblRejectCount" CssClass="notification"></asp:Label>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- ADD WORK / EXPENSE / AGENT ETC BTN -->
+                        <li class="nav-item shade_2">
+                            <a class="workSubMenu d-flex align-items-center justify-content-between t_white nav-link px-3 py-2 link_hover" href="#" data-bs-toggle="collapse" data-bs-target="#workSubMenu" aria-expand="false" aria-controls="workSubMenu">
+                                <span>ADD</span>
+                                <img class="workSubMenuImg" src="../assets/img/downArrow.png" width="15" alt="#" />
+                            </a>
+
+                            <ul id="workSubMenu" class="collapse list-unstyled mb-0">
+                                <!-- ADD WORK BTN -->
+                                <li class="nav-item shade_2">
+                                    <a runat="server" href="addWork.aspx" class="d-flex align-items-center justify-content-between t_white nav-link px-3 py-2 link_hover">
+                                        <span class="ps-3">ADD WORK</span>
+                                    </a>
+                                </li>
+                                <!-- ADD AGENT BTN -->
+                                <li class="nav-item shade_2">
+                                    <a runat="server" href="addAgent.aspx" class="d-flex align-items-center justify-content-between t_white nav-link px-3 py-2 link_hover">
+                                        <span class="ps-3">ADD AGENT</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- LOGOUT BTN -->
+                        <%--<li class="nav-item shade_2">
+                            <asp:Button runat="server" ID="btnLogout" class="t_white nav-link px-3 py-2 w-100 border-0 text-start link_hover shade_2" Text="Logout" />
+                        </li>--%>
+                    </ul>
+                    <!-- LINKS ARE ABOVE -->
+                </div>
+
+                <!-- Model Testing -->
+
+                <div class="modal fade " id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h6 class="modal-title text-secondary" id="infoModalLabel">This function is currently under development</h6>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <%--<p>Select an action:</p>--%>
+                                <a href="#" class="btn btn-danger">Delete table</a>
+                                <a href="#" class="btn btn-success">Modify table</a>
+                                <a href="#" class="btn btn-primary">Select table</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <%-- NAVIGATION BAR END --%>
+                <%-- MAIN CONTENT START --%>
+
+                <div class="w-100" id="pages_content_holder" style="height: 100vh; overflow-y: scroll;">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+
+                <%-- MAIN CONTENT END --%>
+            </div>
+        </div>
+
+    </form>
+
+    <script>
+
+        $(document).ready(function () {
+
+            // SIDE NAVIGATION BAR TOGGLE LOGIC START
+
+            $("#menu_icon").click(function () {
+                $(".side_nav").toggleClass("side_nav_toggle");
+            });
+
+            // SIDE NAVIGATION BAR TOGGLE LOGIC START
+            // SUB MENU CLICKED START
+
+            $(".workSubMenu").click(function () {
+                $(".workSubMenuImg").toggleClass("subMenuArrowIconAnimation");
+            });
+
+            $(".statusSubMenu").click(function () {
+                $(".statusSubMenuImg").toggleClass("subMenuArrowIconAnimation");
+            });
+
+            // SUB MENU CLICKED END
+        });
+
+    </script>
+
+</body>
+</html>
